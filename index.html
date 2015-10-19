@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>AJAX Example 1</title>
+</head>
+
+<body>
+	<h1>Here we go!</h1>
+	<p id="weather">Current Weather</p>
+	<p id="temp">Current Temp</p>
+	<img id="image" src="" />
+	<i class="owf owf-803"></i>
+	<button id="button">Update Weather With AJAX</button>
+	
+	<script>
+	
+		document.getElementById("button").onclick = function() {
+			var request = new XMLHttpRequest();
+			request.open("GET","http://api.openweathermap.org/data/2.5/weather?zip=16602,us&units=imperial", true);
+			
+			request.onload = function() {
+				var responseJSONData = JSON.parse(request.responseText); 
+				document.getElementById("weather").innerHTML = responseJSONData.weather[0].description;
+				document.getElementById("temp").innerHTML = responseJSONData.main.temp;
+				document.getElementById("image").src = "http://openweathermap.org/img/w/" + responseJSONData.weather[0].icon + ".png";
+			}
+			
+			request.onerror = function() {
+				console.log("Connection Error")
+			}
+			
+			request.send();
+		}
+	
+	</script>
+</body>
+
+</html>
